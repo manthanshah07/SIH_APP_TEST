@@ -11,7 +11,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 export default function AuthPage() {
   const navigate = useNavigate();
   const [sp] = useSearchParams();
-  const defaultTab = useMemo(() => (sp.get("tab") === "signup" ? "signup" : "login"), [sp]);
+  const defaultTab = useMemo(
+    () => (sp.get("tab") === "signup" ? "signup" : "login"),
+    [sp],
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,7 +25,11 @@ export default function AuthPage() {
     const form = new FormData(e.currentTarget);
     const email = String(form.get("email") || "").trim();
     const password = String(form.get("password") || "");
-    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || password.length < 6) {
+    if (
+      !email ||
+      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
+      password.length < 6
+    ) {
       alert("Please enter a valid email and password (min 6 chars).");
       return;
     }
@@ -41,7 +48,12 @@ export default function AuthPage() {
     const location = String(form.get("location") || "").trim();
     const interests = String(form.get("interests") || "").trim();
 
-    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || phone.length < 10 || password.length < 6) {
+    if (
+      !name ||
+      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
+      phone.length < 10 ||
+      password.length < 6
+    ) {
       alert("Please fill all fields correctly.");
       return;
     }
@@ -54,14 +66,20 @@ export default function AuthPage() {
       <section className="container py-12 grid gap-8 md:grid-cols-2 items-center">
         <div className="hidden md:block">
           <div className="aspect-[4/5] rounded-xl bg-gradient-to-br from-primary/20 via-emerald-200/40 to-transparent border flex items-center justify-center">
-            <img src="/placeholder.svg" alt="Education" className="h-48 opacity-70" />
+            <img
+              src="/placeholder.svg"
+              alt="Education"
+              className="h-48 opacity-70"
+            />
           </div>
         </div>
         <div>
           <Card>
             <CardHeader>
               <CardTitle>Welcome to One-Stop Advisor</CardTitle>
-              <p className="text-sm text-muted-foreground">Login or create your account</p>
+              <p className="text-sm text-muted-foreground">
+                Login or create your account
+              </p>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue={defaultTab} className="w-full">
@@ -77,14 +95,30 @@ export default function AuthPage() {
                     </div>
                     <div>
                       <Label htmlFor="password">Password</Label>
-                      <Input id="password" name="password" type="password" required minLength={6} />
+                      <Input
+                        id="password"
+                        name="password"
+                        type="password"
+                        required
+                        minLength={6}
+                      />
                     </div>
-                    <Button type="submit" className="w-full">Login</Button>
+                    <Button type="submit" className="w-full">
+                      Login
+                    </Button>
                     <div className="grid grid-cols-2 gap-3">
                       <Button type="button">Login with Google</Button>
                       <Button type="button">Login with Facebook</Button>
                     </div>
                   </form>
+                  <Button
+                    variant="outline"
+                    className="w-full mt-4"
+                    type="button"
+                    onClick={() => navigate("/admin-login")}
+                  >
+                    Admin Login
+                  </Button>
                 </TabsContent>
                 <TabsContent value="signup" className="pt-4">
                   <form className="space-y-4" onSubmit={onSignup}>
@@ -99,15 +133,31 @@ export default function AuthPage() {
                       </div>
                       <div>
                         <Label htmlFor="phone">Phone</Label>
-                        <Input id="phone" name="phone" inputMode="numeric" required />
+                        <Input
+                          id="phone"
+                          name="phone"
+                          inputMode="numeric"
+                          required
+                        />
                       </div>
                       <div>
                         <Label htmlFor="password2">Password</Label>
-                        <Input id="password2" name="password" type="password" required minLength={6} />
+                        <Input
+                          id="password2"
+                          name="password"
+                          type="password"
+                          required
+                          minLength={6}
+                        />
                       </div>
                       <div>
                         <Label htmlFor="class">Class</Label>
-                        <Input id="class" name="class" placeholder="10 / 12 / UG" required />
+                        <Input
+                          id="class"
+                          name="class"
+                          placeholder="10 / 12 / UG"
+                          required
+                        />
                       </div>
                       <div>
                         <Label htmlFor="location">Location</Label>
@@ -115,10 +165,16 @@ export default function AuthPage() {
                       </div>
                       <div className="md:col-span-2">
                         <Label htmlFor="interests">Academic Interests</Label>
-                        <Input id="interests" name="interests" placeholder="e.g. Science, Commerce, Arts" />
+                        <Input
+                          id="interests"
+                          name="interests"
+                          placeholder="e.g. Science, Commerce, Arts"
+                        />
                       </div>
                     </div>
-                    <Button type="submit" className="w-full">Create Account</Button>
+                    <Button type="submit" className="w-full">
+                      Create Account
+                    </Button>
                     <div className="grid grid-cols-2 gap-3">
                       <Button type="button">Sign up with Google</Button>
                       <Button type="button">Sign up with Facebook</Button>
