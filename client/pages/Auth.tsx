@@ -115,7 +115,7 @@ export default function AuthPage() {
                     variant="outline"
                     className="w-full mt-4"
                     type="button"
-                    onClick={() => navigate("/admin-login")}
+                    onClick={() => navigate("/admin/login")}
                   >
                     Admin Login
                   </Button>
