@@ -134,6 +134,7 @@ export default function Index() {
                 boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.15)",
                 border: "1px solid rgba(255,255,255,0.25)",
               }}
+              className="rounded-2xl border bg-gradient-to-br from-primary/10 via-emerald-100/40 to-transparent"
             >
               <CardHeader>
                 <div className="h-12 w-12 rounded-md bg-white/40 flex items-center justify-center backdrop-blur-sm">
