@@ -3,14 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { getUser } from "@/lib/auth";
+import { useAuth } from "@/lib/AuthContext";
 import { Link } from "react-router-dom";
 import { Bot, Calendar, Compass, GraduationCap, MapPin, Timer } from "lucide-react";
 import { AI_RECOMMENDATIONS } from "@/lib/dummyData";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Dashboard() {
-  const user = getUser();
+  const { user } = useAuth();
 
   const quickLinks = [
     { icon: <Compass className="h-5 w-5" />, title: "Aptitude Quiz", to: "/quiz" },
