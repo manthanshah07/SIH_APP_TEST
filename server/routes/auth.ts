@@ -36,6 +36,12 @@ async function readDB() {
 
 // Helper function to write to the database
 async function writeDB(data: any) {
+  // On Vercel, the filesystem is read-only, so we skip writing.
+  // This means new user registrations won't persist on the deployed version
+  // without a proper database.
+  if (process.env.VERCEL) {
+    return;
+  }
   await fs.writeFile(DB_PATH, JSON.stringify(data, null, 2));
 }
 
