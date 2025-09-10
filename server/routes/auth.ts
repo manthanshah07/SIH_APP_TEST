@@ -1,15 +1,24 @@
 
 import { Router } from "express";
-import fs from "fs/promises";
-import path from "path";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 
 const router = Router();
 
-// Path to the simple JSON database
-const DB_PATH = path.resolve("server/db.json");
+// In-memory database to avoid Vercel filesystem issues.
+// This is for demonstration. For production, use a real database (e.g., Vercel Postgres).
+const db = {
+  users: [
+    {
+      id: "admin-001",
+      email: "admin@zenhaven.com",
+      password: "$2b$10$RW1v1s4xJEUbjjQszh5hqeRR9VgIgw3GoJLBvs5Tqb6QV0ojVO4qi", // adminpassword
+      role: "ADMIN",
+      name: "Admin User",
+    },
+  ],
+};
 
 // Zod schemas for validation
 const RegisterSchema = z.object({
@@ -23,28 +32,6 @@ const LoginSchema = z.object({
   password: z.string(),
 });
 
-// Helper function to read the database
-async function readDB() {
-  try {
-    const data = await fs.readFile(DB_PATH, "utf-8");
-    return JSON.parse(data);
-  } catch (error) {
-    // If the file doesn't exist, initialize it
-    return { users: [] };
-  }
-}
-
-// Helper function to write to the database
-async function writeDB(data: any) {
-  // On Vercel, the filesystem is read-only, so we skip writing.
-  // This means new user registrations won't persist on the deployed version
-  // without a proper database.
-  if (process.env.VERCEL) {
-    return;
-  }
-  await fs.writeFile(DB_PATH, JSON.stringify(data, null, 2));
-}
-
 // --- AUTHENTICATION ROUTES ---
 
 // POST /api/auth/register
@@ -56,9 +43,8 @@ router.post("/auth/register", async (req, res) => {
     }
 
     const { name, email, password } = validation.data;
-    const db = await readDB();
 
-    const existingUser = db.users.find((user: any) => user.email === email);
+    const existingUser = db.users.find((user) => user.email === email);
     if (existingUser) {
       return res.status(409).json({ message: "User with this email already exists" });
     }
@@ -69,11 +55,12 @@ router.post("/auth/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: "USER",
+      role: "USER" as const,
     };
 
+    // In a real DB, you would save the user here. For our in-memory object, we just push.
+    // This will not persist across server restarts or on serverless environments.
     db.users.push(newUser);
-    await writeDB(db);
 
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
@@ -91,14 +78,12 @@ async function handleLogin(req: any, res: any, role: "USER" | "ADMIN") {
     }
 
     const { email, password } = validation.data;
-    const db = await readDB();
 
-    const user = db.users.find((u: any) => u.email === email);
+    const user = db.users.find((u) => u.email === email);
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Role check for admin login
     if (role === "ADMIN" && user.role !== "ADMIN") {
       return res.status(403).json({ message: "Access denied. Not an admin user." });
     }
@@ -153,8 +138,7 @@ router.get("/auth/me", async (req, res) => {
       return res.status(401).json({ message: "Invalid token" });
     }
 
-    const db = await readDB();
-    const user = db.users.find((u: any) => u.id === decoded.userId);
+    const user = db.users.find((u) => u.id === decoded.userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -164,7 +148,6 @@ router.get("/auth/me", async (req, res) => {
     res.status(200).json({ user: userResponse });
 
   } catch (error) {
-    // This will catch JWT verification errors (e.g., expired token)
     res.status(401).json({ message: "Invalid or expired token" });
   }
 });
