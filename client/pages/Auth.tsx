@@ -56,11 +56,15 @@ export default function AuthPage() {
     const name = String(form.get("name") || "").trim();
     const email = String(form.get("email") || "").trim();
     const password = String(form.get("password") || "");
-    // ... other fields are not part of the simplified registration
+
+    if (!name || !email || !password) {
+        setError("Please fill all required fields.");
+        setLoading(false);
+        return;
+    }
 
     try {
       await register({ name, email, password });
-      // Optionally, show a success message and redirect to login tab
       alert("Registration successful! Please log in.");
       navigate("/auth?tab=login");
     } catch (err: any) {
@@ -73,31 +77,92 @@ export default function AuthPage() {
   return (
     <MainLayout>
       <section className="container py-12 grid gap-8 md:grid-cols-2 items-center">
-        <div className="hidden md:block">...</div>
+        <div className="hidden md:block">
+          <div className="aspect-[4/5] rounded-xl bg-gradient-to-br from-primary/20 via-emerald-200/40 to-transparent border flex items-center justify-center">
+            <img
+              src="/placeholder.svg"
+              alt="Education"
+              className="h-48 opacity-70"
+            />
+          </div>
+        </div>
         <div>
           <Card>
-            <CardHeader>...</CardHeader>
+            <CardHeader>
+              <CardTitle>Welcome to One-Stop Advisor</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Login or create your account
+              </p>
+            </CardHeader>
             <CardContent>
               {error && <p className="text-red-500 text-center mb-4">{error}</p>}
               <Tabs defaultValue={defaultTab} className="w-full">
-                <TabsList>...</TabsList>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="login">Login</TabsTrigger>
+                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                </TabsList>
                 <TabsContent value="login" className="pt-4">
                   <form className="space-y-4" onSubmit={onLogin}>
-                    ...
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" name="email" type="email" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        name="password"
+                        type="password"
+                        required
+                        minLength={6}
+                      />
+                    </div>
                     <Button type="submit" className="w-full" disabled={loading}>
                       {loading ? "Logging in..." : "Login"}
                     </Button>
-                    ...
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button type="button" variant="outline">Login with Google</Button>
+                      <Button type="button" variant="outline">Login with Facebook</Button>
+                    </div>
                   </form>
-                  ...
+                  <Button
+                    variant="link"
+                    className="w-full mt-4"
+                    type="button"
+                    onClick={() => navigate("/admin/login")}
+                  >
+                    Switch to Admin Login
+                  </Button>
                 </TabsContent>
                 <TabsContent value="signup" className="pt-4">
                   <form className="space-y-4" onSubmit={onSignup}>
-                    ...
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="name">Name</Label>
+                        <Input id="name" name="name" required />
+                      </div>
+                      <div>
+                        <Label htmlFor="email2">Email</Label>
+                        <Input id="email2" name="email" type="email" required />
+                      </div>
+                      <div className="md:col-span-2">
+                        <Label htmlFor="password2">Password</Label>
+                        <Input
+                          id="password2"
+                          name="password"
+                          type="password"
+                          required
+                          minLength={6}
+                        />
+                      </div>
+                    </div>
                     <Button type="submit" className="w-full" disabled={loading}>
                       {loading ? "Creating account..." : "Create Account"}
                     </Button>
-                    ...
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button type="button" variant="outline">Sign up with Google</Button>
+                      <Button type="button" variant="outline">Sign up with Facebook</Button>
+                    </div>
                   </form>
                 </TabsContent>
               </Tabs>
