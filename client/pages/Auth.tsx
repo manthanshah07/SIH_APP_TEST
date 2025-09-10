@@ -4,74 +4,61 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/lib/AuthContext";
-import { useEffect, useMemo, useState } from "react";
+import { setUser } from "@/lib/auth";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const { login, register, isAuthenticated } = useAuth();
   const [sp] = useSearchParams();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
   const defaultTab = useMemo(
     () => (sp.get("tab") === "signup" ? "signup" : "login"),
     [sp],
   );
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
-
-  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  async function onLogin(e: React.FormEvent<HTMLFormElement>) {
+  function onLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
     const form = new FormData(e.currentTarget);
     const email = String(form.get("email") || "").trim();
     const password = String(form.get("password") || "");
-
-    try {
-      await login(email, password);
-      navigate("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "An unknown error occurred.");
-    } finally {
-      setLoading(false);
+    if (
+      !email ||
+      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
+      password.length < 6
+    ) {
+      alert("Please enter a valid email and password (min 6 chars).");
+      return;
     }
+    setUser({ name: email.split("@")[0], email });
+    navigate("/dashboard");
   }
 
-  async function onSignup(e: React.FormEvent<HTMLFormElement>) {
+  function onSignup(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
     const form = new FormData(e.currentTarget);
     const name = String(form.get("name") || "").trim();
     const email = String(form.get("email") || "").trim();
+    const phone = String(form.get("phone") || "").trim();
     const password = String(form.get("password") || "");
+    const classLevel = String(form.get("class") || "");
+    const location = String(form.get("location") || "").trim();
+    const interests = String(form.get("interests") || "").trim();
 
-    if (!name || !email || !password) {
-        setError("Please fill all required fields.");
-        setLoading(false);
-        return;
+    if (
+      !name ||
+      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
+      phone.length < 10 ||
+      password.length < 6
+    ) {
+      alert("Please fill all fields correctly.");
+      return;
     }
-
-    try {
-      await register({ name, email, password });
-      alert("Registration successful! Please log in.");
-      navigate("/auth?tab=login");
-    } catch (err: any) {
-      setError(err.message || "An unknown error occurred.");
-    } finally {
-      setLoading(false);
-    }
+    setUser({ name, email });
+    navigate("/dashboard");
   }
 
   return (
@@ -95,7 +82,6 @@ export default function AuthPage() {
               </p>
             </CardHeader>
             <CardContent>
-              {error && <p className="text-red-500 text-center mb-4">{error}</p>}
               <Tabs defaultValue={defaultTab} className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="login">Login</TabsTrigger>
@@ -117,21 +103,21 @@ export default function AuthPage() {
                         minLength={6}
                       />
                     </div>
-                    <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? "Logging in..." : "Login"}
+                    <Button type="submit" className="w-full">
+                      Login
                     </Button>
                     <div className="grid grid-cols-2 gap-3">
-                      <Button type="button" variant="outline">Login with Google</Button>
-                      <Button type="button" variant="outline">Login with Facebook</Button>
+                      <Button type="button">Login with Google</Button>
+                      <Button type="button">Login with Facebook</Button>
                     </div>
                   </form>
                   <Button
-                    variant="link"
+                    variant="outline"
                     className="w-full mt-4"
                     type="button"
                     onClick={() => navigate("/admin/login")}
                   >
-                    Switch to Admin Login
+                    Admin Login
                   </Button>
                 </TabsContent>
                 <TabsContent value="signup" className="pt-4">
@@ -145,7 +131,16 @@ export default function AuthPage() {
                         <Label htmlFor="email2">Email</Label>
                         <Input id="email2" name="email" type="email" required />
                       </div>
-                      <div className="md:col-span-2">
+                      <div>
+                        <Label htmlFor="phone">Phone</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          inputMode="numeric"
+                          required
+                        />
+                      </div>
+                      <div>
                         <Label htmlFor="password2">Password</Label>
                         <Input
                           id="password2"
@@ -155,13 +150,34 @@ export default function AuthPage() {
                           minLength={6}
                         />
                       </div>
+                      <div>
+                        <Label htmlFor="class">Class</Label>
+                        <Input
+                          id="class"
+                          name="class"
+                          placeholder="10 / 12 / UG"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="location">Location</Label>
+                        <Input id="location" name="location" required />
+                      </div>
+                      <div className="md:col-span-2">
+                        <Label htmlFor="interests">Academic Interests</Label>
+                        <Input
+                          id="interests"
+                          name="interests"
+                          placeholder="e.g. Science, Commerce, Arts"
+                        />
+                      </div>
                     </div>
-                    <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? "Creating account..." : "Create Account"}
+                    <Button type="submit" className="w-full">
+                      Create Account
                     </Button>
                     <div className="grid grid-cols-2 gap-3">
-                      <Button type="button" variant="outline">Sign up with Google</Button>
-                      <Button type="button" variant="outline">Sign up with Facebook</Button>
+                      <Button type="button">Sign up with Google</Button>
+                      <Button type="button">Sign up with Facebook</Button>
                     </div>
                   </form>
                 </TabsContent>

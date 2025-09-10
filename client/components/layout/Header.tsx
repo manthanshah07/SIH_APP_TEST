@@ -1,23 +1,24 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/AuthContext";
+import { getUser, logout } from "@/lib/auth";
 import { Globe2, LogOut, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Header() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const [user, setUser] = useState(getUser());
   const navigate = useNavigate();
   const [lang, setLang] = useState<string>(() => localStorage.getItem("lang") || "en");
 
   useEffect(() => {
+    const onStorage = () => setUser(getUser());
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("lang", lang);
   }, [lang]);
-
-  const handleLogout = async () => {
-    await logout();
-    navigate("/");
-  };
 
   const commonNav = (
     <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -46,12 +47,9 @@ export default function Header() {
                 <NavLink to="/colleges" className="hover:text-primary">Colleges</NavLink>
                 <NavLink to="/materials" className="hover:text-primary">Study Materials</NavLink>
                 <NavLink to="/timeline" className="hover:text-primary">Timeline</NavLink>
-                {isAuthenticated && user?.role === 'USER' && (
+                {user ? (
                   <NavLink to="/dashboard" className="hover:text-primary">Dashboard</NavLink>
-                )}
-                {isAuthenticated && user?.role === 'ADMIN' && (
-                  <NavLink to="/admin" className="hover:text-primary">Admin Dashboard</NavLink>
-                )}
+                ) : null}
               </div>
             </SheetContent>
           </Sheet>
@@ -76,11 +74,10 @@ export default function Header() {
               <option value="ta">தமிழ்</option>
             </select>
           </div>
-          {isAuthenticated ? (
+          {user ? (
             <div className="flex items-center gap-2">
-              {user?.role === 'USER' && <Button variant="outline" onClick={() => navigate("/dashboard")}>Dashboard</Button>}
-              {user?.role === 'ADMIN' && <Button variant="outline" onClick={() => navigate("/admin")}>Admin</Button>}
-              <Button variant="ghost" onClick={handleLogout}>
+              <Button variant="outline" onClick={() => navigate("/dashboard")}>Dashboard</Button>
+              <Button variant="ghost" onClick={() => { logout(); setUser(null); navigate("/"); }}>
                 <LogOut className="h-4 w-4 mr-2"/> Logout
               </Button>
             </div>
