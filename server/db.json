@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "admin-001",
+      "email": "admin@zenhaven.com",
+      "password": "$2b$10$RW1v1s4xJEUbjjQszh5hqeRR9VgIgw3GoJLBvs5Tqb6QV0ojVO4qi",
+      "role": "ADMIN",
+      "name": "Admin User"
+    }
+  ]
+}
