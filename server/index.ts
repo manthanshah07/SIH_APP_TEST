@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleChat } from "./routes/chat";
+import { handleFeedback } from "./routes/feedback";
 
 export function createServer() {
   const app = express();
@@ -22,6 +23,9 @@ export function createServer() {
 
   // Chat endpoint (proxies to OpenAI). Expects { prompt: string }
   app.post("/api/chat", handleChat);
+
+  // Feedback endpoint
+  app.post("/api/feedback", handleFeedback);
 
   return app;
 }

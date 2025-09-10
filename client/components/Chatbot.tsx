@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MessageSquare, Send, X } from "lucide-react";
+import { MessageSquare, Send, X, MessageCircle, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import FeedbackDialog from "./FeedbackDialog";
 
 type Msg = { id: string; from: "bot" | "user"; text: string; quick?: string[] };
 
@@ -11,7 +12,10 @@ function uid() {
 }
 
 export default function Chatbot() {
-  const [open, setOpen] = useState(false);
+  const [fabOpen, setFabOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -29,13 +33,13 @@ export default function Chatbot() {
           return;
         }
       }
-    } catch {}
+    } catch {} // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // Initialize greeting once when component mounts
     const welcome: Msg = {
       id: uid(),
       from: "bot",
-      text: "Hi, I'm your Career Advisor! How can I help you today?",
+      text: "Hi, I\'m your Career Advisor! How can I help you today?",
       quick: ["Aptitude Quiz", "Course to Career Mapping", "Nearby Colleges", "Scholarship Dates"],
     };
     setMessages([welcome]);
@@ -46,11 +50,11 @@ export default function Chatbot() {
   useEffect(() => {
     try {
       sessionStorage.setItem("one_stop_chat_history", JSON.stringify(messages));
-    } catch {}
-    if (open && scrollRef.current) {
+    } catch {} // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (chatOpen && scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, open]);
+  }, [messages, chatOpen]);
 
   function pushMessage(msg: Msg) {
     setMessages((m) => [...m, msg]);
@@ -78,7 +82,6 @@ export default function Chatbot() {
     setSending(true);
 
     try {
-      // Prepare last N messages to send as context
       const N = 6;
       const recent = messages.slice(-N).map((m) => ({ role: m.from === "bot" ? "assistant" : "user", content: m.text }));
 
@@ -89,7 +92,6 @@ export default function Chatbot() {
       });
 
       if (!res.ok) {
-        // fallback to local bot if API not available
         const data = await res.json().catch(() => null);
         const err = data?.error || `${res.status} ${res.statusText}`;
         pushMessage({ id: uid(), from: "bot", text: `Sorry, chat service unavailable (${err}).\nTry: 'Suggest a course' or 'Show colleges near me'.` });
@@ -99,31 +101,68 @@ export default function Chatbot() {
         pushMessage({ id: uid(), from: "bot", text: reply });
       }
     } catch (err) {
-      // network error fallback
-      pushMessage({ id: uid(), from: "bot", text: "Network error. Please try again later." });
+      pushMessage({ id: uid(), from: "bot", text: "Network error. Please try again later."
+      });
     } finally {
       setSending(false);
     }
   }
 
-  function onToggle() {
-    setOpen((v) => !v);
+  function onFabToggle() {
+    setFabOpen((v) => !v);
+  }
+
+  function onChatOpen() {
+    setFabOpen(false);
+    setChatOpen(true);
+  }
+
+  function onFeedbackOpen() {
+    setFabOpen(false);
+    setFeedbackOpen(true);
   }
 
   return (
     <div>
-      {/* Floating button */}
-      <div className="fixed bottom-6 right-6 z-[60]">
+      {/* Floating Action Button Menu */}
+      <div className="fixed bottom-6 right-6 z-[60] flex flex-col items-center gap-2">
+        {fabOpen && (
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2">
+              <span className="rounded-md bg-card px-3 py-2 text-sm shadow-lg">Give Feedback</span>
+              <Button
+                aria-label="Give Feedback"
+                onClick={onFeedbackOpen}
+                className="group relative flex h-12 w-12 items-center justify-center rounded-full shadow-lg bg-secondary text-secondary-foreground"
+              >
+                <Pencil className="h-6 w-6 z-10" />
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="rounded-md bg-card px-3 py-2 text-sm shadow-lg">Ask Advisor</span>
+              <Button
+                aria-label="Open chat"
+                onClick={onChatOpen}
+                className="group relative flex h-12 w-12 items-center justify-center rounded-full shadow-lg bg-secondary text-secondary-foreground"
+              >
+                <MessageCircle className="h-6 w-6 z-10" />
+              </Button>
+            </div>
+          </div>
+        )}
+
         <button
-          aria-label="Open chat"
-          onClick={onToggle}
+          aria-label={fabOpen ? "Close menu" : "Open menu"}
+          onClick={onFabToggle}
           className={cn(
             "group relative flex h-14 w-14 items-center justify-center rounded-full shadow-lg bg-primary text-white focus:outline-none",
-            "hover:scale-105 transform transition",
+            "hover:scale-105 transform transition-transform",
+            fabOpen && "rotate-45"
           )}
         >
           <span className="absolute -inset-1 animate-ping rounded-full bg-primary/40 opacity-70" aria-hidden />
-          <MessageSquare className="h-7 w-7 z-10" />
+          <X className={cn("h-7 w-7 z-10 transition-transform", !fabOpen && "rotate-45 scale-0")} />
+          <MessageSquare className={cn("h-7 w-7 z-10 absolute transition-transform", fabOpen && "rotate-45 scale-0")} />
         </button>
       </div>
 
@@ -131,7 +170,7 @@ export default function Chatbot() {
       <div
         className={cn(
           "fixed bottom-6 right-6 z-50 flex flex-col w-[360px] max-w-[92vw] rounded-xl shadow-2xl bg-card text-card-foreground overflow-hidden",
-          open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 pointer-events-none",
+          chatOpen ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 pointer-events-none",
         )}
         style={{ transition: "all 200ms ease" }}
       >
@@ -143,7 +182,7 @@ export default function Chatbot() {
           <div className="flex items-center gap-2">
             <button
               aria-label="Close chat"
-              onClick={() => setOpen(false)}
+              onClick={() => setChatOpen(false)}
               className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/20"
             >
               <X className="h-4 w-4" />
@@ -186,6 +225,9 @@ export default function Chatbot() {
           </button>
         </form>
       </div>
+
+      {/* Feedback Dialog */}
+      <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </div>
   );
 }
