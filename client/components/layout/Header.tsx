@@ -10,6 +10,8 @@ export default function Header() {
   const navigate = useNavigate();
   const [lang, setLang] = useState<string>(() => localStorage.getItem("lang") || "en");
 
+  const [activeLink, setActiveLink] = useState("home");
+
   useEffect(() => {
     const onStorage = () => setUser(getUser());
     window.addEventListener("storage", onStorage);
@@ -20,10 +22,27 @@ export default function Header() {
     localStorage.setItem("lang", lang);
   }, [lang]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const featuresSection = document.getElementById("features");
+      if (featuresSection) {
+        const { top } = featuresSection.getBoundingClientRect();
+        if (top <= 100) {
+          setActiveLink("features");
+        } else {
+          setActiveLink("home");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const commonNav = (
     <nav className="hidden md:flex items-center gap-6 text-sm">
-      <NavLink to="/" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Home</NavLink>
-      <a href="/#features" className="hover:text-primary text-foreground/80">Features</a>
+      <NavLink to="/" className={`hover:text-primary ${activeLink === "home" ? "text-primary font-semibold" : "text-foreground/80"}`}>Home</NavLink>
+      <a href="/#features" className={`hover:text-primary ${activeLink === "features" ? "text-primary font-semibold" : "text-foreground/80"}`}>Features</a>
       <NavLink to="/colleges" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Colleges</NavLink>
       <NavLink to="/materials" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Study Materials</NavLink>
       <NavLink to="/timeline" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Timeline</NavLink>
