@@ -105,10 +105,10 @@ export default function Index() {
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-lg bg-white/70 dark:bg-white/5 border p-4"
+                  className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg rounded-lg p-4 text-center"
                 >
-                  <div className="text-2xl font-bold">{s.value}</div>
-                  <div className="text-sm text-muted-foreground">{s.label}</div>
+                  <div className="text-3xl font-bold text-white">{s.value}</div>
+                  <div className="text-sm text-light-gray">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -129,24 +129,21 @@ export default function Index() {
           {features.map((f) => (
             <Card
               key={f.title}
-              className="hover:shadow-xl transition-shadow rounded-2xl border bg-gradient-to-br from-primary/10 via-emerald-100/40 to-transparent"
+              className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg rounded-lg p-6 text-center"
             >
               <CardHeader>
-                <div className="h-12 w-12 rounded-md bg-white/40 flex items-center justify-center backdrop-blur-sm">
+                <div className="h-12 w-12 rounded-md bg-white/20 flex items-center justify-center backdrop-blur-sm mx-auto">
                   {f.icon}
                 </div>
-                <CardTitle className="mt-3">{f.title}</CardTitle>
+                <CardTitle className="mt-4 text-white">{f.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground min-h-[48px]">
+                <p className="text-sm text-light-gray min-h-[48px]">
                   {f.desc}
                 </p>
-                <Link
-                  to={f.link}
-                  className="text-primary text-sm inline-flex items-center mt-4 hover:underline"
-                >
-                  Explore →
-                </Link>
+                <Button asChild variant="link" className="text-purple-accent mt-4">
+                  <Link to={f.link}>Explore →</Link>
+                </Button>
               </CardContent>
             </Card>
           ))}
