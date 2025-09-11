@@ -11,12 +11,31 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { useEffect, useState } from "react";
 
 import { COLLEGES } from "@/lib/dummyData";
 
 export default function CollegesPage() {
+  const [userLocation, setUserLocation] = useState(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    }
+  }, []);
+
   const mapContainerStyle = { width: "100%", height: "100%" };
-  const center = { lat: 28.6139, lng: 77.209 }; // Example: Delhi coordinates
+  const center = userLocation || { lat: 28.6139, lng: 77.209 }; // Example: Delhi coordinates
 
   return (
     <MainLayout>
@@ -40,14 +59,20 @@ export default function CollegesPage() {
           <div className="md:col-span-2">
             <div className="rounded-xl border overflow-hidden">
               <AspectRatio ratio={16 / 9}>
-                <LoadScript googleMapsApiKey="AIzaSyD5hZEqJhbY3PSpoMG9zoKCJqMppyiOvLA">
+                <LoadScript googleMapsApiKey="AIzaSyBJWwJe24Iw-zQ55a8rI_kciYfclXyB_NU">
                   <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={center}
                     zoom={11}
                   >
-                    {/* Example marker */}
-                    <Marker position={center} />
+                    {userLocation && <Marker position={center} />}
+                    {COLLEGES.map((college) => (
+                      <Marker
+                        key={college.name}
+                        position={college.coords}
+                        title={college.name}
+                      />
+                    ))}
                   </GoogleMap>
                 </LoadScript>
               </AspectRatio>
