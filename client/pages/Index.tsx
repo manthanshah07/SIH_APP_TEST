@@ -83,7 +83,7 @@ export default function Index() {
               For Students & Parents
             </Badge>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-              One-Stop Personalized Career & Education Advisor
+              EDVORA
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
               Take the aptitude quiz, explore careers and colleges, and track

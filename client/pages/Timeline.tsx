@@ -48,7 +48,7 @@ export default function TimelinePage() {
     const dtstart = `${start.getFullYear()}${String(start.getMonth()+1).padStart(2,'0')}${String(start.getDate()).padStart(2,'0')}T000000Z`;
     const dtend = `${end.getFullYear()}${String(end.getMonth()+1).padStart(2,'0')}${String(end.getDate()).padStart(2,'0')}T000000Z`;
 
-    return `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//One-Stop Advisor//EN\nBEGIN:VEVENT\nUID:${uid}\nDTSTAMP:${dtstamp}\nDTSTART;VALUE=DATE:${dtstart.slice(0,8)}\nDTEND;VALUE=DATE:${dtend.slice(0,8)}\nSUMMARY:${event.title}\nDESCRIPTION:${(event.description || '').replace(/\n/g,'\\n')}\nEND:VEVENT\nEND:VCALENDAR`;
+    return `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//EDVORA//EN\nBEGIN:VEVENT\nUID:${uid}\nDTSTAMP:${dtstamp}\nDTSTART;VALUE=DATE:${dtstart.slice(0,8)}\nDTEND;VALUE=DATE:${dtend.slice(0,8)}\nSUMMARY:${event.title}\nDESCRIPTION:${(event.description || '').replace(/\n/g,'\\n')}\nEND:VEVENT\nEND:VCALENDAR`;
   }
 
   function downloadICS(event: any) {

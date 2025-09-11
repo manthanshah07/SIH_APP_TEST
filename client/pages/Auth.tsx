@@ -76,7 +76,7 @@ export default function AuthPage() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Welcome to One-Stop Advisor</CardTitle>
+              <CardTitle>Welcome to EDVORA</CardTitle>
               <p className="text-sm text-muted-foreground">
                 Login or create your account
               </p>

@@ -7,10 +7,10 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-purple-accent" />
-            <span className="font-extrabold tracking-tight">One-Stop Advisor</span>
+            <span className="font-extrabold tracking-tight">EDVORA</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-sm">
-            Personalized guidance for students to discover careers, colleges, and opportunities.
+            EDVORA
           </p>
         </div>
         <div>
@@ -39,7 +39,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} One-Stop Advisor. All rights reserved.
+        © {new Date().getFullYear()} EDVORA. All rights reserved.
       </div>
     </footer>
   );

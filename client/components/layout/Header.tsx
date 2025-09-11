@@ -55,7 +55,7 @@ export default function Header() {
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-purple-accent" />
-            <span className="font-extrabold tracking-tight">One-Stop Advisor</span>
+            <span className="font-extrabold tracking-tight">EDVORA</span>
           </Link>
         </div>
         {commonNav}
