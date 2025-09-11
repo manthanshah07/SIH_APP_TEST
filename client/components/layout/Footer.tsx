@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container py-10 grid gap-6 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-emerald-500" />
+            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-purple-accent" />
             <span className="font-extrabold tracking-tight">One-Stop Advisor</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-sm">

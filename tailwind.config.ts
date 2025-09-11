@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "deep-purple": "#6a0dad",
+        "light-gray": "#d1d1d1",
+        "purple-accent": "#8a2be2",
+        "darker-purple": "#6c20b3",
+      },
+      backgroundImage: {
+        "purple-black-gradient": "linear-gradient(to bottom, #6a0dad, #000000)",
       },
       borderRadius: {
         lg: "var(--radius)",

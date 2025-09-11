@@ -40,7 +40,7 @@ export default function Header() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72">
+            <SheetContent side="left" className="w-72 bg-transparent">
               <div className="flex flex-col gap-6 mt-6 text-lg">
                 <NavLink to="/" className="hover:text-primary">Home</NavLink>
                 <a href="/#features" className="hover:text-primary">Features</a>
@@ -54,7 +54,7 @@ export default function Header() {
             </SheetContent>
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-emerald-500" />
+            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-purple-accent" />
             <span className="font-extrabold tracking-tight">One-Stop Advisor</span>
           </Link>
         </div>
