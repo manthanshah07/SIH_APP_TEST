@@ -1,38 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import QuizComponent from "../components/QuizComponent";
 import { quiz10th } from "../../lib/quiz10th";
 import { quiz12th } from "../../lib/quiz12th";
-import { Button } from "../components/ui/button";
+import MainLayout from "@/components/layout/MainLayout";
 
 const Quiz: React.FC = () => {
-  const [selectedQuiz, setSelectedQuiz] = useState<"10th" | "12th" | null>(null);
+  const { quizType } = useParams<{ quizType: "10th" | "12th" }>();
+  const navigate = useNavigate();
 
-  const handleQuizSelection = (quiz: "10th" | "12th") => {
-    setSelectedQuiz(quiz);
-  };
+  const quizData = quizType === "10th" ? quiz10th : quiz12th;
+  const quizTitle =
+    quizType === "10th" ? "10th Grade Career Quiz" : "12th Grade Career Quiz";
 
   const handleRestart = () => {
-    setSelectedQuiz(null);
+    // Navigate back to the quiz selection page to restart
+    navigate("/quiz-selection");
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">Career Quiz</h1>
-      {!selectedQuiz ? (
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-          <Button onClick={() => handleQuizSelection("10th")}>
-            10th Student Quiz
-          </Button>
-          <Button onClick={() => handleQuizSelection("12th")}>
-            12th Student Quiz
-          </Button>
-        </div>
-      ) : selectedQuiz === "10th" ? (
-        <QuizComponent quizData={quiz10th} onRestart={handleRestart} />
-      ) : (
-        <QuizComponent quizData={quiz12th} onRestart={handleRestart} />
-      )}
-    </div>
+    <MainLayout>
+      <div className="container mx-auto p-4 flex flex-col items-center">
+        <QuizComponent
+          quizData={quizData}
+          onRestart={handleRestart}
+          title={quizTitle}
+        />
+      </div>
+    </MainLayout>
   );
 };
 
