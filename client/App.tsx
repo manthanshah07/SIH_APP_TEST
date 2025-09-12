@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import QuizPage from "./pages/Quiz";
+import QuizSelection from "./pages/QuizSelection";
 import MappingPage from "./pages/Mapping";
 import CollegesPage from "./pages/Colleges";
 import TimelinePage from "./pages/Timeline";
@@ -39,15 +40,40 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-            <Route path="/quiz" element={<ProtectedRoute element={<QuizPage />} />} />
-            <Route path="/mapping" element={<ProtectedRoute element={<MappingPage />} />} />
-            <Route path="/colleges" element={<ProtectedRoute element={<CollegesPage />} />} />
-            <Route path="/timeline" element={<ProtectedRoute element={<TimelinePage />} />} />
-            <Route path="/materials" element={<ProtectedRoute element={<MaterialsPage />} />} />
+            <Route
+              path="/dashboard"
+              element={<ProtectedRoute element={<Dashboard />} />}
+            />
+            <Route
+              path="/quiz-selection"
+              element={<ProtectedRoute element={<QuizSelection />} />}
+            />
+            <Route
+              path="/quiz/:quizType"
+              element={<ProtectedRoute element={<QuizPage />} />}
+            />
+            <Route
+              path="/mapping"
+              element={<ProtectedRoute element={<MappingPage />} />}
+            />
+            <Route
+              path="/colleges"
+              element={<ProtectedRoute element={<CollegesPage />} />}
+            />
+            <Route
+              path="/timeline"
+              element={<ProtectedRoute element={<TimelinePage />} />}
+            />
+            <Route
+              path="/materials"
+              element={<ProtectedRoute element={<MaterialsPage />} />}
+            />
 
             <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin" element={<AdminProtectedRoute element={<AdminDashboardPage />} />} />
+            <Route
+              path="/admin"
+              element={<AdminProtectedRoute element={<AdminDashboardPage />} />}
+            />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

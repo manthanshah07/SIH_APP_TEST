@@ -66,8 +66,9 @@ export default function Dashboard() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {quickLinks.map((q) => (
                   <Link key={q.title} to={q.to}>
-                    <div className="rounded-lg border p-4 hover:bg-secondary transition-colors">
-                      <div className="flex items-center gap-2 text-primary">{q.icon}<span>{q.title}</span></div>
+                    <div className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg rounded-lg p-4 text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center">
+                      <div className="text-purple-accent mb-2">{q.icon}</div>
+                      <span className="text-white">{q.title}</span>
                     </div>
                   </Link>
                 ))}

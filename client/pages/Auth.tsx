@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { setUser } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
 import { useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -21,7 +20,7 @@ export default function AuthPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  async function onLogin(e: React.FormEvent<HTMLFormElement>) {
+  function onLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const email = String(form.get("email") || "").trim();
@@ -34,22 +33,11 @@ export default function AuthPage() {
       alert("Please enter a valid email and password (min 6 chars).");
       return;
     }
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      alert(error.message || "Invalid credentials");
-      return;
-    }
-    const u = data.user;
-    if (!u?.email) {
-      alert("Login succeeded but no email returned by Supabase.");
-      return;
-    }
-    const displayName = (u.user_metadata as any)?.name || u.email.split("@")[0];
-    setUser({ name: displayName, email: u.email });
+    setUser({ name: email.split("@")[0], email });
     navigate("/dashboard");
   }
 
-  async function onSignup(e: React.FormEvent<HTMLFormElement>) {
+  function onSignup(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const name = String(form.get("name") || "").trim();
@@ -69,32 +57,14 @@ export default function AuthPage() {
       alert("Please fill all fields correctly.");
       return;
     }
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { name } },
-    });
-    if (error) {
-      alert(error.message || "Could not create account");
-      return;
-    }
-    alert("Check your email to confirm your account, then log in.");
-    navigate("/auth?tab=login");
+    setUser({ name, email });
+    navigate("/dashboard");
   }
 
   return (
     <MainLayout>
-      <section className="container py-12 grid gap-8 md:grid-cols-2 items-center">
-        <div className="hidden md:block">
-          <div className="aspect-[4/5] rounded-xl bg-gradient-to-br from-primary/20 via-emerald-200/40 to-transparent border flex items-center justify-center">
-            <img
-              src="/placeholder.svg"
-              alt="Education"
-              className="h-48 opacity-70"
-            />
-          </div>
-        </div>
-        <div>
+      <section className="container py-12 flex items-center justify-center">
+        <div className="w-full max-w-md">
           <Card>
             <CardHeader>
               <CardTitle>Welcome to EDVORA</CardTitle>

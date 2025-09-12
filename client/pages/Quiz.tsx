@@ -1,136 +1,34 @@
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import QuizComponent from "../components/QuizComponent";
+import { quiz10th } from "../../lib/quiz10th";
+import { quiz12th } from "../../lib/quiz12th";
 import MainLayout from "@/components/layout/MainLayout";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useMemo, useState } from "react";
 
-import { QUIZ_QUESTIONS, QUIZ_RESULT_MAP } from "@/lib/dummyData";
+const Quiz: React.FC = () => {
+  const { quizType } = useParams<{ quizType: "10th" | "12th" }>();
+  const navigate = useNavigate();
 
-type Answer = 0 | 1 | 2 | 3 | 4;
+  const quizData = quizType === "10th" ? quiz10th : quiz12th;
+  const quizTitle =
+    quizType === "10th" ? "10th Grade Career Quiz" : "12th Grade Career Quiz";
 
-export default function QuizPage() {
-  const [i, setI] = useState(0);
-  const [answers, setAnswers] = useState<Answer[]>(Array(QUIZ_QUESTIONS.length).fill(2));
-  const [done, setDone] = useState(false);
-
-  const progress = Math.round(((i + (done ? 1 : 0)) / QUIZ_QUESTIONS.length) * 100);
-
-  const result = useMemo(() => {
-    const scores: Record<string, number> = {};
-    QUIZ_QUESTIONS.forEach((q, idx) => {
-      scores[q.weight] = (scores[q.weight] || 0) + (answers[idx] ?? 2);
-    });
-    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    const top = sorted.slice(0, 2).map(([k]) => k);
-    const suggestions: Record<string, string[]> = QUIZ_RESULT_MAP;
-    return { top, suggestions };
-  }, [answers]);
-
-  function next() {
-    if (i < QUIZ_QUESTIONS.length - 1) setI((v) => v + 1);
-    else setDone(true);
-  }
-
-  function prev() {
-    if (done) setDone(false);
-    else if (i > 0) setI((v) => v - 1);
-  }
+  const handleRestart = () => {
+    // Navigate back to the quiz selection page to restart
+    navigate("/quiz-selection");
+  };
 
   return (
     <MainLayout>
-      <section className="container py-8">
-        <div className="mb-4">
-          <div className="flex items-center justify-between">
-            <div className="font-semibold">Aptitude & Interest Quiz</div>
-            <div className="text-sm text-muted-foreground">{progress}% complete</div>
-          </div>
-          <Progress value={progress} />
-        </div>
-
-        {!done ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Question {i + 1} of {QUIZ_QUESTIONS.length}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-lg font-medium">{QUIZ_QUESTIONS[i].q}</div>
-              <div className="mt-4 grid gap-2">
-                {QUIZ_QUESTIONS[i].options.map((o, idx) => (
-                  <label key={o} className={`rounded-md border p-3 cursor-pointer ${answers[i] === idx ? "border-primary bg-primary/5" : "hover:bg-secondary"}`}>
-                    <input
-                      type="radio"
-                      name={`q_${i}`}
-                      className="hidden"
-                      checked={answers[i] === idx}
-                      onChange={() => {
-                        const cp = answers.slice();
-                        cp[i] = idx as Answer;
-                        setAnswers(cp);
-                      }}
-                    />
-                    {o}
-                  </label>
-                ))}
-              </div>
-              <div className="mt-6 flex justify-between">
-                <Button variant="outline" onClick={prev} disabled={i === 0}>Previous</Button>
-                <Button onClick={next}>{i === QUIZ_QUESTIONS.length - 1 ? "Finish" : "Next"}</Button>
-              </div>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Suggested Streams</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc pl-6 space-y-2">
-                  {result.top.map((t) => (
-                    <li key={t} className="capitalize">{t}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Career Path Visualization</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-3 text-sm">
-                  <div className="rounded-md border p-3">
-                    <div className="font-semibold">Degree</div>
-                    <ul className="mt-2 list-disc pl-4">
-                      {result.top.flatMap((t) => result.suggestions[t]).slice(0,3).map((d) => (
-                        <li key={d}>{d}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <div className="font-semibold">Career Options</div>
-                    <ul className="mt-2 list-disc pl-4">
-                      <li>Software Engineer</li>
-                      <li>Data Analyst</li>
-                      <li>Teacher</li>
-                    </ul>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <div className="font-semibold">Higher Studies</div>
-                    <ul className="mt-2 list-disc pl-4">
-                      <li>M.Tech / M.Sc</li>
-                      <li>MBA</li>
-                      <li>Ph.D</li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="mt-6 flex justify-end gap-3">
-                  <Button variant="outline" onClick={() => { setI(0); setDone(false); }}>Retake</Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </section>
+      <div className="container mx-auto p-4 flex flex-col items-center">
+        <QuizComponent
+          quizData={quizData}
+          onRestart={handleRestart}
+          title={quizTitle}
+        />
+      </div>
     </MainLayout>
   );
-}
+};
+
+export default Quiz;

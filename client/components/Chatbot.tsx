@@ -40,7 +40,12 @@ export default function Chatbot() {
       id: uid(),
       from: "bot",
       text: "Hi, I\'m your Career Advisor! How can I help you today?",
-      quick: ["Aptitude Quiz", "Course to Career Mapping", "Nearby Colleges", "Scholarship Dates"],
+      quick: [
+        "Aptitude Quiz",
+        "Course to Career Mapping",
+        "Nearby Colleges",
+        "Scholarship Dates",
+      ],
     };
     setMessages([welcome]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,25 +88,38 @@ export default function Chatbot() {
 
     try {
       const N = 6;
-      const recent = messages.slice(-N).map((m) => ({ role: m.from === "bot" ? "assistant" : "user", content: m.text }));
+      const recent = messages
+        .slice(-N)
+        .map((m) => ({
+          role: m.from === "bot" ? "assistant" : "user",
+          content: m.text,
+        }));
 
-      const res = await fetch("/api/chat", {
+      const res = await fetch(DJANGO_API_BASE + DJANGO_CHAT_PATH, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...recent, { role: "user", content: text }] }),
+        body: JSON.stringify({ message: text, history: recent }),
       });
 
       if (!res.ok) {
         const data = await res.json().catch(() => null);
         const err = data?.error || `${res.status} ${res.statusText}`;
-        pushMessage({ id: uid(), from: "bot", text: `Sorry, chat service unavailable (${err}).\nTry: 'Suggest a course' or 'Show colleges near me'.` });
+        pushMessage({
+          id: uid(),
+          from: "bot",
+          text: `Sorry, chat service unavailable (${err}).\nTry: 'Suggest a course' or 'Show colleges near me'.`,
+        });
       } else {
         const data = await res.json();
-        const reply = data.reply || "I couldn't get a response. Try again later.";
+        const reply =
+          data.reply || "I couldn't get a response. Try again later.";
         pushMessage({ id: uid(), from: "bot", text: reply });
       }
     } catch (err) {
-      pushMessage({ id: uid(), from: "bot", text: "Network error. Please try again later."
+      pushMessage({
+        id: uid(),
+        from: "bot",
+        text: "Network error. Please try again later.",
       });
     } finally {
       setSending(false);
@@ -129,7 +147,9 @@ export default function Chatbot() {
         {fabOpen && (
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-2">
-              <span className="rounded-md bg-card px-3 py-2 text-sm shadow-lg">Give Feedback</span>
+              <span className="rounded-md bg-card px-3 py-2 text-sm shadow-lg">
+                Give Feedback
+              </span>
               <Button
                 aria-label="Give Feedback"
                 onClick={onFeedbackOpen}
@@ -139,7 +159,9 @@ export default function Chatbot() {
               </Button>
             </div>
             <div className="flex items-center gap-2">
-              <span className="rounded-md bg-card px-3 py-2 text-sm shadow-lg">Ask Advisor</span>
+              <span className="rounded-md bg-card px-3 py-2 text-sm shadow-lg">
+                Ask Advisor
+              </span>
               <Button
                 aria-label="Open chat"
                 onClick={onChatOpen}
@@ -157,12 +179,25 @@ export default function Chatbot() {
           className={cn(
             "group relative flex h-14 w-14 items-center justify-center rounded-full shadow-lg bg-primary text-white focus:outline-none",
             "hover:scale-105 transform transition-transform",
-            fabOpen && "rotate-45"
+            fabOpen && "rotate-45",
           )}
         >
-          <span className="absolute -inset-1 animate-ping rounded-full bg-primary/40 opacity-70" aria-hidden />
-          <X className={cn("h-7 w-7 z-10 transition-transform", !fabOpen && "rotate-45 scale-0")} />
-          <MessageSquare className={cn("h-7 w-7 z-10 absolute transition-transform", fabOpen && "rotate-45 scale-0")} />
+          <span
+            className="absolute -inset-1 animate-ping rounded-full bg-primary/40 opacity-70"
+            aria-hidden
+          />
+          <X
+            className={cn(
+              "h-7 w-7 z-10 transition-transform",
+              !fabOpen && "rotate-45 scale-0",
+            )}
+          />
+          <MessageSquare
+            className={cn(
+              "h-7 w-7 z-10 absolute transition-transform",
+              fabOpen && "rotate-45 scale-0",
+            )}
+          />
         </button>
       </div>
 
@@ -170,7 +205,9 @@ export default function Chatbot() {
       <div
         className={cn(
           "fixed bottom-6 right-6 z-50 flex flex-col w-[360px] max-w-[92vw] rounded-xl shadow-2xl bg-card text-card-foreground overflow-hidden",
-          chatOpen ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 pointer-events-none",
+          chatOpen
+            ? "translate-y-0 opacity-100"
+            : "translate-y-6 opacity-0 pointer-events-none",
         )}
         style={{ transition: "all 200ms ease" }}
       >
@@ -190,37 +227,69 @@ export default function Chatbot() {
           </div>
         </div>
 
-        <div ref={scrollRef} className="min-h-[160px] max-h-[360px] overflow-auto p-4 space-y-3 bg-background">
+        <div
+          ref={scrollRef}
+          className="min-h-[160px] max-h-[360px] overflow-auto p-4 space-y-3 bg-background"
+        >
           {messages.map((m) => (
-            <div key={m.id} className={m.from === "bot" ? "flex gap-3" : "flex gap-3 justify-end"}>
+            <div
+              key={m.id}
+              className={
+                m.from === "bot" ? "flex gap-3" : "flex gap-3 justify-end"
+              }
+            >
               {m.from === "bot" && (
-                <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">A</div>
+                <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">
+                  A
+                </div>
               )}
-              <div className={m.from === "bot" ? "max-w-[78%] rounded-lg bg-card p-3 shadow-sm" : "max-w-[78%] rounded-lg bg-primary text-primary-foreground p-3 shadow-sm"}>
+              <div
+                className={
+                  m.from === "bot"
+                    ? "max-w-[78%] rounded-lg bg-card p-3 shadow-sm"
+                    : "max-w-[78%] rounded-lg bg-primary text-primary-foreground p-3 shadow-sm"
+                }
+              >
                 <div className="text-sm whitespace-pre-wrap">{m.text}</div>
                 {m.quick && (
                   <div className="mt-3 flex flex-wrap gap-2">
                     {m.quick.map((q) => (
-                      <button key={q} className="rounded-md bg-secondary/10 px-3 py-1 text-xs" onClick={() => handleQuick(q)}>{q}</button>
+                      <button
+                        key={q}
+                        className="rounded-md bg-secondary/10 px-3 py-1 text-xs"
+                        onClick={() => handleQuick(q)}
+                      >
+                        {q}
+                      </button>
                     ))}
                   </div>
                 )}
               </div>
               {m.from === "user" && (
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white">U</div>
+                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white">
+                  U
+                </div>
               )}
             </div>
           ))}
         </div>
 
-        <form onSubmit={handleSend} className="flex items-center gap-2 p-3 border-t bg-background">
+        <form
+          onSubmit={handleSend}
+          className="flex items-center gap-2 p-3 border-t bg-background"
+        >
           <input
             className="flex-1 rounded-md border px-3 py-2 text-sm outline-none"
             placeholder="Type your question here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          <button aria-label="Send" type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-white">
+          <button
+            aria-label="Send"
+            type="submit"
+            disabled={sending}
+            className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-white"
+          >
             <Send className="h-4 w-4" />
           </button>
         </form>
