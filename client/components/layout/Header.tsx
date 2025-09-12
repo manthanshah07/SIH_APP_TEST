@@ -58,8 +58,8 @@ export default function Header() {
             </SheetContent>
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
-            <img src="/Edvora logo.png" alt="EDVORA Logo" className="h-8 w-auto" />
-            <span className="font-extrabold tracking-tight">EDVORA</span>
+            <img src="/Edvora logo.png" alt="EDVORA Logo" className="h-10 w-auto" />
+            <span className="text-xl font-bold">EDVORA</span>
           </Link>
         </div>
         <div className="flex items-center gap-2">
