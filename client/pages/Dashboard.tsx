@@ -5,7 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { getUser } from "@/lib/auth";
 import { Link } from "react-router-dom";
-import { Bot, Calendar, Compass, GraduationCap, MapPin, Timer } from "lucide-react";
+import {
+  Bot,
+  Calendar,
+  Compass,
+  GraduationCap,
+  MapPin,
+  Timer,
+} from "lucide-react";
 import { AI_RECOMMENDATIONS } from "@/lib/dummyData";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -13,9 +20,21 @@ export default function Dashboard() {
   const user = getUser();
 
   const quickLinks = [
-    { icon: <Compass className="h-5 w-5" />, title: "Aptitude Quiz", to: "/quiz" },
-    { icon: <GraduationCap className="h-5 w-5" />, title: "Career Mapping", to: "/mapping" },
-    { icon: <MapPin className="h-5 w-5" />, title: "Colleges", to: "/colleges" },
+    {
+      icon: <Compass className="h-5 w-5" />,
+      title: "Aptitude Quiz",
+      to: "/quiz-selection",
+    },
+    {
+      icon: <GraduationCap className="h-5 w-5" />,
+      title: "Career Mapping",
+      to: "/mapping",
+    },
+    {
+      icon: <MapPin className="h-5 w-5" />,
+      title: "Colleges",
+      to: "/colleges",
+    },
     { icon: <Timer className="h-5 w-5" />, title: "Timeline", to: "/timeline" },
   ];
 
@@ -26,7 +45,10 @@ export default function Dashboard() {
   ];
 
   const recos = [
-    { title: "B.Sc. Computer Science", why: "Matches your logical reasoning and interest in tech" },
+    {
+      title: "B.Sc. Computer Science",
+      why: "Matches your logical reasoning and interest in tech",
+    },
     { title: "Government College, Pune", why: "Within 10km, good placement" },
   ];
 
@@ -37,21 +59,39 @@ export default function Dashboard() {
       <section className="container py-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Hello, {user?.name || "Student"} 👋</h1>
-            <p className="text-muted-foreground">Here is your personalized plan</p>
+            <h1 className="text-2xl md:text-3xl font-bold">
+              Hello, {user?.name || "Student"} 👋
+            </h1>
+            <p className="text-muted-foreground">
+              Here is your personalized plan
+            </p>
           </div>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" className="md:hidden">Menu</Button>
+              <Button variant="outline" className="md:hidden">
+                Menu
+              </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-72">
               <div className="mt-8 grid gap-2">
-                <Link to="/dashboard" className="text-sm">Dashboard</Link>
-                <Link to="/quiz" className="text-sm">Aptitude Quiz</Link>
-                <Link to="/mapping" className="text-sm">Course-to-Career</Link>
-                <Link to="/colleges" className="text-sm">Nearby Colleges</Link>
-                <Link to="/timeline" className="text-sm">Timeline Tracker</Link>
-                <Link to="/materials" className="text-sm">Study Materials</Link>
+                <Link to="/dashboard" className="text-sm">
+                  Dashboard
+                </Link>
+                <Link to="/quiz-selection" className="text-sm">
+                  Aptitude Quiz
+                </Link>
+                <Link to="/mapping" className="text-sm">
+                  Course-to-Career
+                </Link>
+                <Link to="/colleges" className="text-sm">
+                  Nearby Colleges
+                </Link>
+                <Link to="/timeline" className="text-sm">
+                  Timeline Tracker
+                </Link>
+                <Link to="/materials" className="text-sm">
+                  Study Materials
+                </Link>
               </div>
             </SheetContent>
           </Sheet>
@@ -85,12 +125,17 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5"/> Upcoming Deadlines</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" /> Upcoming Deadlines
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3 text-sm">
                 {deadlines.map((d) => (
-                  <li key={d.title} className="flex items-center justify-between">
+                  <li
+                    key={d.title}
+                    className="flex items-center justify-between"
+                  >
                     <span>{d.title}</span>
                     <span className="text-muted-foreground">{d.date}</span>
                   </li>
@@ -103,7 +148,9 @@ export default function Dashboard() {
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           <Card className="md:col-span-2">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Bot className="h-5 w-5"/> AI Recommendations</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Bot className="h-5 w-5" /> AI Recommendations
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -119,13 +166,17 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Calendar className="h-5 w-5"/> Next Event</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" /> Next Event
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg border p-4 bg-secondary/50">
                 <div className="text-sm text-muted-foreground">Nov 02</div>
                 <div className="font-semibold">CUET UG Application</div>
-                <Button size="sm" variant="outline" className="mt-3">Add reminder</Button>
+                <Button size="sm" variant="outline" className="mt-3">
+                  Add reminder
+                </Button>
               </div>
             </CardContent>
           </Card>

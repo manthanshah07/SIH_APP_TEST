@@ -5,6 +5,10 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import FeedbackDialog from "./FeedbackDialog";
 
+// Define your Django API base URL and chat path here
+const DJANGO_API_BASE = "http://localhost:8000"; // Change to your Django server URL
+const DJANGO_CHAT_PATH = "/api/chat/"; // Change to your chat endpoint path
+
 type Msg = { id: string; from: "bot" | "user"; text: string; quick?: string[] };
 
 function uid() {
