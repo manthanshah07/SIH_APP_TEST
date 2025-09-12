@@ -32,7 +32,7 @@ export default function Index() {
       icon: <Compass className="h-8 w-8 text-white" />,
       title: "Aptitude Quiz",
       desc: "Discover strengths and interests with adaptive MCQs.",
-      link: "/quiz",
+      link: "/quiz-selection",
     },
     {
       icon: <GraduationCap className="h-8 w-8 text-white" />,
@@ -96,7 +96,7 @@ export default function Index() {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => navigate("/quiz")}
+                onClick={() => navigate("/quiz-selection")}
               >
                 Try Aptitude Quiz
               </Button>
@@ -138,10 +138,12 @@ export default function Index() {
                 <CardTitle className="mt-4 text-white">{f.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-light-gray min-h-[48px]">
-                  {f.desc}
-                </p>
-                <Button asChild variant="link" className="text-purple-accent mt-4">
+                <p className="text-sm text-light-gray min-h-[48px]">{f.desc}</p>
+                <Button
+                  asChild
+                  variant="link"
+                  className="text-purple-accent mt-4"
+                >
                   <Link to={f.link}>Explore →</Link>
                 </Button>
               </CardContent>
@@ -173,7 +175,9 @@ export default function Index() {
                       <div className="flex items-start gap-3">
                         <CheckCircle2 className="h-5 w-5 text-purple-accent mt-1" />
                         <div>
-                          <p className="text-sm leading-relaxed text-white">“{s.text}”</p>
+                          <p className="text-sm leading-relaxed text-white">
+                            “{s.text}”
+                          </p>
                           <div className="mt-3 text-xs text-light-gray">
                             {s.name} • {s.place}
                           </div>
