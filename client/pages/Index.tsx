@@ -29,25 +29,25 @@ export default function Index() {
 
   const features = [
     {
-      icon: <Compass className="h-6 w-6 text-primary" />,
+      icon: <Compass className="h-8 w-8 text-white" />,
       title: "Aptitude Quiz",
       desc: "Discover strengths and interests with adaptive MCQs.",
       link: "/quiz",
     },
     {
-      icon: <GraduationCap className="h-6 w-6 text-primary" />,
+      icon: <GraduationCap className="h-8 w-8 text-white" />,
       title: "Course-to-Career",
       desc: "See degrees mapped to career paths and higher studies.",
       link: "/mapping",
     },
     {
-      icon: <MapPin className="h-6 w-6 text-primary" />,
+      icon: <MapPin className="h-8 w-8 text-white" />,
       title: "Nearby Colleges",
       desc: "Government colleges with cut-offs, facilities, and directions.",
       link: "/colleges",
     },
     {
-      icon: <Timer className="h-6 w-6 text-primary" />,
+      icon: <Timer className="h-8 w-8 text-white" />,
       title: "Timeline Tracker",
       desc: "Never miss admissions, exams, and scholarship dates.",
       link: "/timeline",
@@ -151,13 +151,13 @@ export default function Index() {
       </section>
 
       {/* Impact carousel */}
-      <section className="bg-secondary/50 py-16">
+      <section className="bg-white/10 py-16">
         <div className="container">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl md:text-3xl font-bold">
+            <h3 className="text-2xl md:text-3xl font-bold text-white">
               Real impact across India
             </h3>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-light-gray">
               Enrollment and success stories
             </div>
           </div>
@@ -168,13 +168,13 @@ export default function Index() {
                   key={i}
                   className="basis-full md:basis-1/2 lg:basis-1/3"
                 >
-                  <Card>
+                  <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-3">
-                        <CheckCircle2 className="h-5 w-5 text-emerald-600 mt-1" />
+                        <CheckCircle2 className="h-5 w-5 text-purple-accent mt-1" />
                         <div>
-                          <p className="text-sm leading-relaxed">“{s.text}”</p>
-                          <div className="mt-3 text-xs text-muted-foreground">
+                          <p className="text-sm leading-relaxed text-white">“{s.text}”</p>
+                          <div className="mt-3 text-xs text-light-gray">
                             {s.name} • {s.place}
                           </div>
                         </div>
@@ -194,13 +194,13 @@ export default function Index() {
 
       {/* CTA */}
       <section className="container py-16 md:py-24">
-        <div className="rounded-2xl border p-8 md:p-12 bg-gradient-to-br from-primary/10 via-emerald-100/40 to-transparent">
+        <div className="rounded-2xl border p-8 md:p-12 bg-gradient-to-br from-purple-accent/80 to-deep-purple/80">
           <div className="md:flex items-center justify-between gap-6">
             <div>
-              <h3 className="text-2xl md:text-3xl font-bold">
+              <h3 className="text-2xl md:text-3xl font-bold text-white">
                 Ready to plan your future?
               </h3>
-              <p className="text-muted-foreground mt-2 max-w-xl">
+              <p className="text-light-gray mt-2 max-w-xl">
                 Join now to get personalized recommendations for courses and
                 colleges.
               </p>

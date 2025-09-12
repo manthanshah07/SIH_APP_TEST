@@ -56,7 +56,7 @@ export default function QuizPage() {
               <div className="text-lg font-medium">{QUIZ_QUESTIONS[i].q}</div>
               <div className="mt-4 grid gap-2">
                 {QUIZ_QUESTIONS[i].options.map((o, idx) => (
-                  <label key={o} className={`rounded-md border p-3 cursor-pointer ${answers[i] === idx ? "border-primary bg-primary/5" : "hover:bg-secondary"}`}>
+                  <label key={o} className={`rounded-md border p-3 cursor-pointer ${answers[i] === idx ? "border-purple-accent bg-purple-accent/20" : "hover:bg-purple-accent/10"}`}>
                     <input
                       type="radio"
                       name={`q_${i}`}
