@@ -63,17 +63,8 @@ export default function AuthPage() {
 
   return (
     <MainLayout>
-      <section className="container py-12 grid gap-8 md:grid-cols-2 items-center">
-        <div className="hidden md:block">
-          <div className="aspect-[4/5] rounded-xl bg-gradient-to-br from-primary/20 via-emerald-200/40 to-transparent border flex items-center justify-center">
-            <img
-              src="/placeholder.svg"
-              alt="Education"
-              className="h-48 opacity-70"
-            />
-          </div>
-        </div>
-        <div>
+      <section className="container py-12 flex items-center justify-center">
+        <div className="w-full max-w-md">
           <Card>
             <CardHeader>
               <CardTitle>Welcome to EDVORA</CardTitle>
