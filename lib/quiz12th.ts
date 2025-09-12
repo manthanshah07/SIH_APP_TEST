@@ -1,109 +1,191 @@
-export const QUIZ_QUESTIONS_12TH = [
-  {
-    q: "What inspires you most about a career?",
-    options: ["Innovation and discovery", "Creative freedom", "Making a difference in people’s lives", "Achieving power & success"],
-    weight: "",
+export const quiz12th = {
+  questions: [
+    {
+      question: "What inspires you most about a career?",
+      options: {
+        a: "Innovation and discovery",
+        b: "Creative freedom",
+        c: "Making a difference in people’s lives",
+        d: "Achieving power & success",
+      },
+    },
+    {
+      question: "Which type of problem excites you?",
+      options: {
+        a: "Technical challenges",
+        b: "Designing something original",
+        c: "Helping someone through guidance",
+        d: "Managing a project or event",
+      },
+    },
+    {
+      question: "Which subject do you naturally connect with?",
+      options: {
+        a: "Math/Science",
+        b: "Fine arts/media",
+        c: "Sociology/Psychology/Law",
+        d: "Economics/Business",
+      },
+    },
+    {
+      question:
+        "When you imagine yourself working, where do you see yourself?",
+      options: {
+        a: "Research lab/tech company",
+        b: "Studio/media office",
+        c: "NGO/court/classroom",
+        d: "Corporate/startup office",
+      },
+    },
+    {
+      question: "If you had to choose one project, what would it be?",
+      options: {
+        a: "Build a robot/app",
+        b: "Launch a creative magazine",
+        c: "Start a community help initiative",
+        d: "Run a small business venture",
+      },
+    },
+    {
+      question: "Which phrase describes you better?",
+      options: {
+        a: "Problem solver",
+        b: "Artistic creator",
+        c: "Caring guide",
+        d: "Natural leader",
+      },
+    },
+    {
+      question: "Which news headline attracts you most?",
+      options: {
+        a: "New tech innovation",
+        b: "Film/art festival",
+        c: "Social reform/judgment",
+        d: "Stock market or business growth",
+      },
+    },
+    {
+      question: "How do you approach stress?",
+      options: {
+        a: "Focus and break it down logically",
+        b: "Distract myself with creativity",
+        c: "Talk to someone and seek support",
+        d: "Take charge and control the situation",
+      },
+    },
+    {
+      question: "Which of these achievements makes you happiest?",
+      options: {
+        a: "Solving a technical/medical challenge",
+        b: "Creating a unique design/content",
+        c: "Helping someone succeed",
+        d: "Leading a team to success",
+      },
+    },
+    {
+      question: "If you had unlimited resources, you would…",
+      options: {
+        a: "Build tech to solve real-world problems",
+        b: "Create art, films, or innovative designs",
+        c: "Work for education/justice/mental health",
+        d: "Start a global business",
+      },
+    },
+    {
+      question: "What do your friends rely on you for?",
+      options: {
+        a: "Tech help/solutions",
+        b: "Creative ideas",
+        c: "Emotional support/advice",
+        d: "Leadership & decisions",
+      },
+    },
+    {
+      question: "Which kind of personality do you admire most?",
+      options: {
+        a: "Scientist/Engineer/Doctor",
+        b: "Artist/Designer/Architect",
+        c: "Teacher/Activist/Lawyer",
+        d: "Entrepreneur/Manager/Leader",
+      },
+    },
+    {
+      question: "Which field feels most ‘you’?",
+      options: {
+        a: "Engineering/Medicine/Research",
+        b: "Design/Media/Architecture",
+        c: "Law/Psychology/Education",
+        d: "Management/Entrepreneurship",
+      },
+    },
+    {
+      question: "What excites you about college life?",
+      options: {
+        a: "Labs, research, innovation",
+        b: "Creative projects, clubs, media fests",
+        c: "Debates, social work, volunteering",
+        d: "Business clubs, leadership events",
+      },
+    },
+    {
+      question: "Which phrase feels closest to your dream?",
+      options: {
+        a: "Building solutions for the future",
+        b: "Expressing creativity to the world",
+        c: "Making society fairer and better",
+        d: "Leading a successful empire",
+      },
+    },
+    {
+      question: "If you could attend a workshop, which one?",
+      options: {
+        a: "Robotics/AI",
+        b: "Photography/Design",
+        c: "Counseling/Public speaking",
+        d: "Business/Finance",
+      },
+    },
+    {
+      question: "How do you define success?",
+      options: {
+        a: "Discovering something new",
+        b: "Expressing creativity freely",
+        c: "Helping people & changing lives",
+        d: "Power, wealth, influence",
+      },
+    },
+    {
+      question: "Which global figure inspires you most?",
+      options: {
+        a: "APJ Abdul Kalam / Sundar Pichai",
+        b: "AR Rahman / Zaha Hadid",
+        c: "Malala Yousafzai / Gandhi",
+        d: "Elon Musk / Indra Nooyi",
+      },
+    },
+    {
+      question: "How do you prefer to work?",
+      options: {
+        a: "Deep focus, independent",
+        b: "In teams, creatively",
+        c: "Closely with people",
+        d: "Leading teams",
+      },
+    },
+    {
+      question: "Which single word reflects your career dream?",
+      options: {
+        a: "Innovation",
+        b: "Creativity",
+        c: "Impact",
+        d: "Leadership",
+      },
+    },
+  ],
+  results: {
+    a: "Technical/Engineering/Medical/Data careers",
+    b: "Creative/Design/Media/Architecture",
+    c: "Social/Legal/Education/Psychology careers",
+    d: "Business/Management/Leadership careers",
   },
-  {
-    q: "Which type of problem excites you?",
-    options: ["Technical challenges", "Designing something original", "Helping someone through guidance", "Managing a project or event"],
-    weight: "",
-  },
-  {
-    q: "Which subject do you naturally connect with?",
-    options: ["Math/Science", "Fine arts/media", "Sociology/Psychology/Law", "Economics/Business"],
-    weight: "",
-  },
-  {
-    q: "When you imagine yourself working, where do you see yourself?",
-    options: ["Research lab/tech company", "Studio/media office", "NGO/court/classroom", "Corporate/startup office"],
-    weight: "",
-  },
-  {
-    q: "If you had to choose one project, what would it be?",
-    options: ["Build a robot/app", "Launch a creative magazine", "Start a community help initiative", "Run a small business venture"],
-    weight: "",
-  },
-  {
-    q: "Which phrase describes you better?",
-    options: ["Problem solver", "Artistic creator", "Caring guide", "Natural leader"],
-    weight: "",
-  },
-  {
-    q: "Which news headline attracts you most?",
-    options: ["New tech innovation", "Film/art festival", "Social reform/judgment", "Stock market or business growth"],
-    weight: "",
-  },
-  {
-    q: "How do you approach stress?",
-    options: ["Focus and break it down logically", "Distract myself with creativity", "Talk to someone and seek support", "Take charge and control the situation"],
-    weight: "",
-  },
-  {
-    q: "Which of these achievements makes you happiest?",
-    options: ["Solving a technical/medical challenge", "Creating a unique design/content", "Helping someone succeed", "Leading a team to success"],
-    weight: "",
-  },
-  {
-    q: "If you had unlimited resources, you would…",
-    options: ["Build tech to solve real-world problems", "Create art, films, or innovative designs", "Work for education/justice/mental health", "Start a global business"],
-    weight: "",
-  },
-  {
-    q: "What do your friends rely on you for?",
-    options: ["Tech help/solutions", "Creative ideas", "Emotional support/advice", "Leadership & decisions"],
-    weight: "",
-  },
-  {
-    q: "Which kind of personality do you admire most?",
-    options: ["Scientist/Engineer/Doctor", "Artist/Designer/Architect", "Teacher/Activist/Lawyer", "Entrepreneur/Manager/Leader"],
-    weight: "",
-  },
-  {
-    q: "Which field feels most “you”?",
-    options: ["Engineering/Medicine/Research", "Design/Media/Architecture", "Law/Psychology/Education", "Management/Entrepreneurship"],
-    weight: "",
-  },
-  {
-    q: "What excites you about college life?",
-    options: ["Labs, research, innovation", "Creative projects, clubs, media fests", "Debates, social work, volunteering", "Business clubs, leadership events"],
-    weight: "",
-  },
-  {
-    q: "Which phrase feels closest to your dream?",
-    options: ["Building solutions for the future", "Expressing creativity to the world", "Making society fairer and better", "Leading a successful empire"],
-    weight: "",
-  },
-  {
-    q: "If you could attend a workshop, which one?",
-    options: ["Robotics/AI", "Photography/Design", "Counseling/Public speaking", "Business/Finance"],
-    weight: "",
-  },
-  {
-    q: "How do you define success?",
-    options: ["Discovering something new", "Expressing creativity freely", "Helping people & changing lives", "Power, wealth, influence"],
-    weight: "",
-  },
-  {
-    q: "Which global figure inspires you most?",
-    options: ["APJ Abdul Kalam / Sundar Pichai", "AR Rahman / Zaha Hadid", "Malala Yousafzai / Gandhi", "Elon Musk / Indra Nooyi"],
-    weight: "",
-  },
-  {
-    q: "How do you prefer to work?",
-    options: ["Deep focus, independent", "In teams, creatively", "Closely with people", "Leading teams"],
-    weight: "",
-  },
-  {
-    q: "Which single word reflects your career dream?",
-    options: ["Innovation", "Creativity", "Impact", "Leadership"],
-    weight: "",
-  },
-];
-
-export const QUIZ_RESULT_MAP_12TH = {
-  "Technical/Engineering/Medical/Data careers": [],
-  "Creative/Design/Media/Architecture": [],
-  "Social/Legal/Education/Psychology careers": [],
-  "Business/Management/Leadership careers": [],
 };
