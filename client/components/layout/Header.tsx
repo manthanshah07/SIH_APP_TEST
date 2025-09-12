@@ -63,20 +63,6 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 rounded-md border px-2 py-1">
-            <Globe2 className="h-4 w-4" />
-            <select
-              aria-label="Language selector"
-              className="bg-transparent text-sm outline-none"
-              value={lang}
-              onChange={(e) => setLang(e.target.value)}
-            >
-              <option value="en">English</option>
-              <option value="hi">हिंदी</option>
-              <option value="bn">বাংলা</option>
-              <option value="ta">தமிழ்</option>
-            </select>
-          </div>
           {user ? (
             <div className="flex items-center gap-2">
               <Button variant="outline" onClick={() => navigate("/dashboard")}>Dashboard</Button>
