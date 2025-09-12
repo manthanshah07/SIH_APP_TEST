@@ -39,16 +39,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const commonNav = (
-    <nav className="hidden md:flex items-center gap-6 text-sm">
-      <NavLink to="/" className={`hover:text-primary ${activeLink === "home" ? "text-primary font-semibold" : "text-foreground/80"}`}>Home</NavLink>
-      <a href="/#features" className={`hover:text-primary ${activeLink === "features" ? "text-primary font-semibold" : "text-foreground/80"}`}>Features</a>
-      <NavLink to="/colleges" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Colleges</NavLink>
-      <NavLink to="/materials" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Study Materials</NavLink>
-      <NavLink to="/timeline" className={({isActive})=>`hover:text-primary ${isActive?"text-primary font-semibold":"text-foreground/80"}`}>Timeline</NavLink>
-    </nav>
-  );
-
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -61,11 +51,6 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="left" className="w-72 bg-transparent">
               <div className="flex flex-col gap-6 mt-6 text-lg">
-                <NavLink to="/" className="hover:text-primary">Home</NavLink>
-                <a href="/#features" className="hover:text-primary">Features</a>
-                <NavLink to="/colleges" className="hover:text-primary">Colleges</NavLink>
-                <NavLink to="/materials" className="hover:text-primary">Study Materials</NavLink>
-                <NavLink to="/timeline" className="hover:text-primary">Timeline</NavLink>
                 {user ? (
                   <NavLink to="/dashboard" className="hover:text-primary">Dashboard</NavLink>
                 ) : null}
@@ -73,11 +58,10 @@ export default function Header() {
             </SheetContent>
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-purple-accent" />
+            <img src="/Edvora logo.png" alt="EDVORA Logo" className="h-8 w-auto" />
             <span className="font-extrabold tracking-tight">EDVORA</span>
           </Link>
         </div>
-        {commonNav}
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 rounded-md border px-2 py-1">
             <Globe2 className="h-4 w-4" />
