@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -9,6 +10,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Progress } from "./ui/progress";
+import { ArrowLeft, Trophy } from "lucide-react";
 
 interface QuizProps {
   quizData: {
@@ -23,6 +25,7 @@ interface QuizProps {
 }
 
 const QuizComponent: React.FC<QuizProps> = ({ quizData, onRestart, title }) => {
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [showResult, setShowResult] = useState(false);
@@ -33,6 +36,12 @@ const QuizComponent: React.FC<QuizProps> = ({ quizData, onRestart, title }) => {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       setShowResult(true);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
     }
   };
 
@@ -49,23 +58,39 @@ const QuizComponent: React.FC<QuizProps> = ({ quizData, onRestart, title }) => {
     return quizData.results[resultKey];
   };
 
-  const progress = ((currentQuestion + 1) / quizData.questions.length) * 100;
+  const progress = showResult
+    ? 100
+    : (currentQuestion / quizData.questions.length) * 100;
 
   return (
     <Card className="w-full max-w-2xl">
       {showResult ? (
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Quiz Completed!</CardTitle>
-          <CardDescription>
-            Based on your answers, we recommend the following stream:
-          </CardDescription>
-          <CardContent className="pt-6">
-            <p className="text-4xl font-bold text-primary">{getResult()}</p>
+        <>
+          <CardHeader className="items-center text-center">
+            <Trophy className="h-16 w-16 text-yellow-500 mb-4" />
+            <CardTitle className="text-2xl">Quiz Completed!</CardTitle>
+            <CardDescription>
+              Based on your answers, we recommend the following stream:
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center">
+            <p className="text-4xl font-bold text-primary mb-6">
+              {getResult()}
+            </p>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              This suggestion is a great starting point. Now you can explore
+              detailed career paths and courses related to this stream.
+            </p>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button onClick={onRestart}>Take Another Quiz</Button>
+          <CardFooter className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button onClick={() => navigate("/mapping")}>
+              Explore Career Paths
+            </Button>
+            <Button variant="outline" onClick={onRestart}>
+              Take Another Quiz
+            </Button>
           </CardFooter>
-        </CardHeader>
+        </>
       ) : (
         <>
           <CardHeader>
