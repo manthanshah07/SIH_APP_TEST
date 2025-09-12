@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "user-1757667469393",
+      "name": "Subhadeep Mondal",
+      "email": "rajarammondal320@gmail.com",
+      "password": "$2b$10$wwyApu..WJ98yapgBs4MHevelgh2j1OQbaWx.JsPkiIxrUGFRkIJ.",
+      "role": "USER"
+    },
+    {
+      "id": "user-1757667605469",
+      "name": "shantanu",
+      "email": "shanty3606@gmail.com",
+      "password": "$2b$10$4mjYVg0tqUXV4Hod2kVG1uueuzO20dVzVz5ML0Z9pMRWJeM65AGP6",
+      "role": "USER"
+    }
+  ]
+}

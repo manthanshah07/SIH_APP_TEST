@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { setUser } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 import { useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -20,7 +21,7 @@ export default function AuthPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  function onLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function onLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const email = String(form.get("email") || "").trim();
@@ -33,11 +34,22 @@ export default function AuthPage() {
       alert("Please enter a valid email and password (min 6 chars).");
       return;
     }
-    setUser({ name: email.split("@")[0], email });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      alert(error.message || "Invalid credentials");
+      return;
+    }
+    const u = data.user;
+    if (!u?.email) {
+      alert("Login succeeded but no email returned by Supabase.");
+      return;
+    }
+    const displayName = (u.user_metadata as any)?.name || u.email.split("@")[0];
+    setUser({ name: displayName, email: u.email });
     navigate("/dashboard");
   }
 
-  function onSignup(e: React.FormEvent<HTMLFormElement>) {
+  async function onSignup(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const name = String(form.get("name") || "").trim();
@@ -57,8 +69,17 @@ export default function AuthPage() {
       alert("Please fill all fields correctly.");
       return;
     }
-    setUser({ name, email });
-    navigate("/dashboard");
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name } },
+    });
+    if (error) {
+      alert(error.message || "Could not create account");
+      return;
+    }
+    alert("Check your email to confirm your account, then log in.");
+    navigate("/auth?tab=login");
   }
 
   return (
