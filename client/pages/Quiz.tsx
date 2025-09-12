@@ -2,13 +2,19 @@ import MainLayout from "@/components/layout/MainLayout";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import { QUIZ_QUESTIONS, QUIZ_RESULT_MAP } from "@/lib/dummyData";
+import { QUIZ_QUESTIONS as QUIZ_QUESTIONS_10TH, QUIZ_RESULT_MAP as QUIZ_RESULT_MAP_10TH } from "@/lib/quiz10th";
+import { QUIZ_QUESTIONS as QUIZ_QUESTIONS_12TH, QUIZ_RESULT_MAP as QUIZ_RESULT_MAP_12TH } from "@/lib/quiz12th";
 
 type Answer = 0 | 1 | 2 | 3 | 4;
 
 export default function QuizPage() {
+  const { grade } = useParams<{ grade: string }>();
+
+  const QUIZ_QUESTIONS = grade === "10th" ? QUIZ_QUESTIONS_10TH : QUIZ_QUESTIONS_12TH;
+  const QUIZ_RESULT_MAP = grade === "10th" ? QUIZ_RESULT_MAP_10TH : QUIZ_RESULT_MAP_12TH;
+
   const [i, setI] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>(Array(QUIZ_QUESTIONS.length).fill(2));
   const [done, setDone] = useState(false);
@@ -24,7 +30,7 @@ export default function QuizPage() {
     const top = sorted.slice(0, 2).map(([k]) => k);
     const suggestions: Record<string, string[]> = QUIZ_RESULT_MAP;
     return { top, suggestions };
-  }, [answers]);
+  }, [answers, QUIZ_QUESTIONS, QUIZ_RESULT_MAP]);
 
   function next() {
     if (i < QUIZ_QUESTIONS.length - 1) setI((v) => v + 1);

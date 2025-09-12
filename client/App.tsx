@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import QuizPage from "./pages/Quiz";
+import QuizSelection from "./pages/QuizSelection";
 import MappingPage from "./pages/Mapping";
 import CollegesPage from "./pages/Colleges";
 import TimelinePage from "./pages/Timeline";
