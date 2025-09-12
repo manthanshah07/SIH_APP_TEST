@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams } from "react-router-dom";
 
-import { QUIZ_QUESTIONS as QUIZ_QUESTIONS_10TH, QUIZ_RESULT_MAP as QUIZ_RESULT_MAP_10TH } from "@/lib/quiz10th";
-import { QUIZ_QUESTIONS as QUIZ_QUESTIONS_12TH, QUIZ_RESULT_MAP as QUIZ_RESULT_MAP_12TH } from "@/lib/quiz12th";
+import { QUIZ_QUESTIONS_10TH, QUIZ_RESULT_MAP_10TH } from "@/lib/quiz10th.ts";
+import { QUIZ_QUESTIONS_12TH, QUIZ_RESULT_MAP_12TH } from "@/lib/quiz12th.ts";
 
 type Answer = 0 | 1 | 2 | 3 | 4;
 
@@ -22,15 +22,44 @@ export default function QuizPage() {
   const progress = Math.round(((i + (done ? 1 : 0)) / QUIZ_QUESTIONS.length) * 100);
 
   const result = useMemo(() => {
-    const scores: Record<string, number> = {};
-    QUIZ_QUESTIONS.forEach((q, idx) => {
-      scores[q.weight] = (scores[q.weight] || 0) + (answers[idx] ?? 2);
+    const scores = {
+      a: 0,
+      b: 0,
+      c: 0,
+      d: 0,
+    };
+    answers.forEach((answer) => {
+      if (answer === 0) scores.a++;
+      else if (answer === 1) scores.b++;
+      else if (answer === 2) scores.c++;
+      else if (answer === 3) scores.d++;
     });
+
     const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    const top = sorted.slice(0, 2).map(([k]) => k);
-    const suggestions: Record<string, string[]> = QUIZ_RESULT_MAP;
-    return { top, suggestions };
-  }, [answers, QUIZ_QUESTIONS, QUIZ_RESULT_MAP]);
+    const top = sorted.slice(0, 1).map(([k]) => k);
+
+    if (grade === "10th") {
+      if (top[0] === 'a') {
+        return { top: ["Science Stream"], suggestions: QUIZ_RESULT_MAP };
+      } else if (top[0] === 'b') {
+        return { top: ["Commerce Stream"], suggestions: QUIZ_RESULT_MAP };
+      } else if (top[0] === 'c') {
+        return { top: ["Arts/Humanities"], suggestions: QUIZ_RESULT_MAP };
+      } else {
+        return { top: ["Vocational/Skill-based"], suggestions: QUIZ_RESULT_MAP };
+      }
+    } else {
+      if (top[0] === 'a') {
+        return { top: ["Technical/Engineering/Medical/Data careers"], suggestions: QUIZ_RESULT_MAP };
+      } else if (top[0] === 'b') {
+        return { top: ["Creative/Design/Media/Architecture"], suggestions: QUIZ_RESULT_MAP };
+      } else if (top[0] === 'c') {
+        return { top: ["Social/Legal/Education/Psychology careers"], suggestions: QUIZ_RESULT_MAP };
+      } else {
+        return { top: ["Business/Management/Leadership careers"], suggestions: QUIZ_RESULT_MAP };
+      }
+    }
+  }, [answers, grade, QUIZ_RESULT_MAP]);
 
   function next() {
     if (i < QUIZ_QUESTIONS.length - 1) setI((v) => v + 1);
