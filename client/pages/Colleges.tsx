@@ -69,7 +69,7 @@ export default function CollegesPage() {
                     {COLLEGES.map((college) => (
                       <Marker
                         key={college.name}
-                        position={college.coords}
+                        position={{ lat: college.lat, lng: college.lng }}
                         title={college.name}
                       />
                     ))}
