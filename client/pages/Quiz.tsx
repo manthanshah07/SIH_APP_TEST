@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams } from "react-router-dom";
 
-import { QUIZ_QUESTIONS_10TH, QUIZ_RESULT_MAP_10TH } from "@/lib/quiz10th.ts";
-import { QUIZ_QUESTIONS_12TH, QUIZ_RESULT_MAP_12TH } from "@/lib/quiz12th.ts";
+import { QUIZ_QUESTIONS_10TH, QUIZ_RESULT_MAP_10TH } from "../lib/quiz10th";
+import { QUIZ_QUESTIONS_12TH, QUIZ_RESULT_MAP_12TH } from "../lib/quiz12th";
 
 type Answer = 0 | 1 | 2 | 3 | 4;
 
