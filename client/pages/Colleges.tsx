@@ -17,6 +17,8 @@ import { COLLEGES } from "@/lib/dummyData";
 
 export default function CollegesPage() {
   const [userLocation, setUserLocation] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredColleges, setFilteredColleges] = useState(COLLEGES);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -34,6 +36,19 @@ export default function CollegesPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const filtered = COLLEGES.filter(
+      (college) =>
+        college.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        college.location.toLowerCase().includes(lowerCaseSearchTerm) ||
+        college.courses.some((course) =>
+          course.toLowerCase().includes(lowerCaseSearchTerm)
+        )
+    );
+    setFilteredColleges(filtered);
+  }, [searchTerm]);
+
   const mapContainerStyle = { width: "100%", height: "100%" };
   const center = userLocation || { lat: 28.6139, lng: 77.209 }; // Example: Delhi coordinates
 
@@ -41,7 +56,12 @@ export default function CollegesPage() {
     <MainLayout>
       <section className="container py-8">
         <div className="grid gap-3 md:grid-cols-3">
-          <Input placeholder="Search colleges" className="md:col-span-2" />
+          <Input
+            placeholder="Search colleges"
+            className="md:col-span-2"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Select defaultValue="All">
             <SelectTrigger>
               <SelectValue placeholder="Course" />
@@ -66,7 +86,7 @@ export default function CollegesPage() {
                     zoom={11}
                   >
                     {userLocation && <Marker position={center} />}
-                    {COLLEGES.map((college) => (
+                    {filteredColleges.map((college) => (
                       <Marker
                         key={college.name}
                         position={{ lat: college.lat, lng: college.lng }}
@@ -79,7 +99,7 @@ export default function CollegesPage() {
             </div>
           </div>
           <div className="space-y-4">
-            {COLLEGES.map((c) => (
+            {filteredColleges.map((c) => (
               <Card key={c.name}>
                 <CardHeader>
                   <CardTitle className="text-lg">{c.name}</CardTitle>
