@@ -194,13 +194,13 @@ export default function AuthPage() {
             </div>
           </div>
         </div>
-        <div className="hidden bg-background lg:flex flex-col items-center justify-center p-10 overflow-hidden">
+        <div className="hidden lg:flex flex-col items-center justify-center p-10 overflow-hidden">
           <div className="w-full max-w-md">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">
-              Real impact across India
-            </h3>
             <div className="relative h-96">
               <div className="scrolling-reviews absolute top-0 left-0 w-full">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">
+                  Real impact across India
+                </h3>
                 <div className="flex flex-col gap-4">
                   {[...stories, ...stories].map((s, i) => (
                     <Card
