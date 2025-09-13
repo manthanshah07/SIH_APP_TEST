@@ -106,7 +106,15 @@
 
   /* Minimal styles for react-day-picker to ensure proper layout without external CSS */
   .rdp {
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial;
   }
   .rdp-months {
     display: flex;
@@ -123,7 +131,7 @@
   .rdp-head_cell {
     text-align: center;
     padding: 0.25rem 0;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
   }
   .rdp-day {
     width: 2.25rem;
@@ -133,7 +141,8 @@
     justify-content: center;
     border-radius: 0.375rem;
   }
-  .rdp-day_selected, .rdp-day:where([aria-selected="true"]) {
+  .rdp-day_selected,
+  .rdp-day:where([aria-selected="true"]) {
     background: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
   }
@@ -148,5 +157,18 @@
   }
   .btn-purple:hover {
     @apply bg-darker-purple;
+  }
+
+  .scrolling-reviews {
+    animation: scroll 40s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
   }
 }
