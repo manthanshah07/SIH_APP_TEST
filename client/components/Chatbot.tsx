@@ -283,7 +283,7 @@ export default function Chatbot() {
           className="flex items-center gap-2 p-3 border-t bg-background"
         >
           <input
-            className="flex-1 rounded-md border px-3 py-2 text-sm outline-none"
+            className="flex-1 rounded-md border px-3 py-2 text-sm outline-none bg-card text-foreground placeholder-muted-foreground"
             placeholder="Type your question here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
